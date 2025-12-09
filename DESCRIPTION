@@ -15,3 +15,5 @@ Imports:
     openxlsx
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
+URL: https://github.com/smmcandrew/tabbitR
+BugReports: https://github.com/smmcandrew/tabbitR/issues
