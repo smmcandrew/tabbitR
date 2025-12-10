@@ -35,7 +35,7 @@ tabbit_excel(
 \item{row_pct}{Logical. If \code{FALSE} (default), tables show column
 percentages. If \code{TRUE}, tables show row percentages.}
 
-\item{decimals}{Integer. Number of decimal places for percentages (0–6;
+\item{decimals}{Integer. Number of decimal places for percentages (0-6;
 default 1).}
 
 \item{nooverall}{Logical. If \code{TRUE}, suppress the "Overall" column (or
