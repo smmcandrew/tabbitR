@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Siobhan McAndrew" />
+
+
+<title>Introduction to tabbitR</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to tabbitR</h1>
+<h4 class="author">Siobhan McAndrew</h4>
+
+
+
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p><strong>tabbitR</strong> automates the production of large sets of
+weighted crosstabulation tables and exports them directly to
+Excel.<br />
+It is designed for situations where analysts need many tables at once,
+such as:</p>
+<ul>
+<li>multiple outcome variables<br />
+</li>
+<li>multiple explanatory (breakdown) variables<br />
+</li>
+<li>weighted percentages<br />
+</li>
+<li>unweighted counts<br />
+</li>
+<li>clear and transparent reporting of missing values.</li>
+</ul>
+<p>This is a routine but time-consuming task in survey research,
+monitoring and evaluation, and exploratory data analysis. Doing it
+manually is repetitive, error-prone, and difficult to keep
+consistent.</p>
+<p><code>tabbitR::tabbit_excel()</code> solves this by producing, for
+each<br />
+<strong>outcome x breakdown variable</strong> pair:</p>
+<ul>
+<li>a weighted percentage table<br />
+</li>
+<li>a matching unweighted N table<br />
+</li>
+<li>a clearly labelled summary of missing responses<br />
+</li>
+<li>light formatting via <strong>openxlsx</strong><br />
+</li>
+<li>one or multiple Excel sheets depending on user preference.</li>
+</ul>
+<p>The goal is to reduce manual work, enforce consistency, and
+accelerate the early stages of analysis.</p>
+</div>
+<div id="tabbitr-use-cases" class="section level1">
+<h1>tabbitR use cases</h1>
+<p>Survey teams, academic researchers, and data analysts often need to
+deliver hundreds or thousands of tables - for example:</p>
+<ul>
+<li>one table per survey measure<br />
+</li>
+<li>for each demographic variable<br />
+</li>
+<li>across multiple countries or survey waves.</li>
+</ul>
+<p>Manual workflows struggle with:</p>
+<ul>
+<li>maintaining consistent formatting<br />
+</li>
+<li>ensuring missing values are handled transparently<br />
+</li>
+<li>avoiding accidental errors in weights or denominators<br />
+</li>
+<li>producing both weighted and unweighted summaries for each outcome
+variable<br />
+</li>
+<li>generating reproducible outputs.</li>
+</ul>
+<p><code>tabbitR</code> automates all of this in one reproducible
+command.</p>
+</div>
+<div id="key-features" class="section level1">
+<h1>Key features</h1>
+<div id="weighted-percentages" class="section level2">
+<h2>Weighted percentages</h2>
+<p>Percentages are computed using user-supplied weights:</p>
+<ul>
+<li><strong>column percentages</strong> by default<br />
+</li>
+<li><strong>row percentages</strong> if <code>row_pct = TRUE</code></li>
+</ul>
+<p>Percentage formatting respects the <code>decimals =</code>
+argument.</p>
+</div>
+<div id="unweighted-counts" class="section level2">
+<h2>Unweighted counts</h2>
+<p>Alongside the percentage table, <code>tabbit_excel()</code>
+writes:</p>
+<ul>
+<li>an unweighted N table</li>
+<li>including or excluding missing values (depending on user
+options).</li>
+</ul>
+</div>
+<div id="missing-values-clear-and-explicit" class="section level2">
+<h2>Missing values: clear and explicit</h2>
+<p><code>tabbitR</code> does not silently drop missing responses.</p>
+<p>Users may choose:</p>
+<ul>
+<li><strong>default:</strong> missing outcomes excluded from percentage
+rows, but<br />
+summarised in a “Missing %” line<br />
+</li>
+<li><strong><code>missingasrow = TRUE</code>:</strong> missing values
+appear as <code>Response missing&quot;</code><br />
+as a full row in both the percentage and N tables<br />
+</li>
+<li><strong><code>nomissing = TRUE</code>:</strong> no missing summary
+is shown.</li>
+</ul>
+</div>
+<div id="flexible-layout" class="section level2">
+<h2>Flexible layout</h2>
+<ul>
+<li>one sheet per breakdown variable (default)<br />
+</li>
+<li>or all tables in a single sheet<br />
+</li>
+<li>variable labels included when available (from e.g. haven-labelled
+data)<br />
+</li>
+<li>Excel formatting: bold headers, borders, readable layout.</li>
+</ul>
+</div>
+<div id="designed-for-large-projects" class="section level2">
+<h2>Designed for large projects</h2>
+<p><code>tabbitR</code> is especially useful when producing:</p>
+<ul>
+<li>formatted frequencies or breakdowns for hundreds of outcome
+variables<br />
+</li>
+<li>for multiple countries or survey waves<br />
+</li>
+<li>publication-ready Excel files for clients.</li>
+</ul>
+</div>
+</div>
+<div id="usage" class="section level1">
+<h1>Usage</h1>
+<div id="a-minimal-example" class="section level2">
+<h2>A minimal example</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tabbitR)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="at">outcome =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;C&quot;</span>, <span class="cn">NA</span>)),</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="at">sex     =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Female&quot;</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>                     <span class="st">&quot;Prefer not to say&quot;</span>, <span class="st">&quot;Male&quot;</span>)),</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="at">weight  =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.75</span>, <span class="dv">3</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">&quot;.xlsx&quot;</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="fu">tabbit_excel</span>(</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  <span class="at">data        =</span> df,</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>  <span class="at">vars        =</span> <span class="st">&quot;outcome&quot;</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>  <span class="at">breakdown   =</span> <span class="st">&quot;sex&quot;</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>  <span class="at">wtvar       =</span> <span class="st">&quot;weight&quot;</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>  <span class="at">file        =</span> tmp,</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>  <span class="at">decimals    =</span> <span class="dv">1</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>)</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>tmp</span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt; [1] &quot;C:\\Users\\siobh\\AppData\\Local\\Temp\\RtmpMLEY0o\\file648433a42b4.xlsx&quot;</span></span></code></pre></div>
+<p>You can open the file in Excel with:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>openxlsx<span class="sc">::</span><span class="fu">openXL</span>(tmp)</span></code></pre></div>
+</div>
+<div id="multiple-outcomes-and-multiple-breakdowns" class="section level2">
+<h2>Multiple outcomes and multiple breakdowns</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="do">### Example toy survey data</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>survey_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="at">outcome1       =</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&quot;Agree&quot;</span>, <span class="st">&quot;Neutral&quot;</span>, <span class="st">&quot;Disagree&quot;</span>), <span class="dv">200</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="at">outcome2       =</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&quot;Often&quot;</span>, <span class="st">&quot;Sometimes&quot;</span>, <span class="st">&quot;Never&quot;</span>), <span class="dv">200</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="at">outcome3       =</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>), <span class="dv">200</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="at">sex            =</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>), <span class="dv">200</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="at">age            =</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&quot;18-34&quot;</span>, <span class="st">&quot;35-54&quot;</span>, <span class="st">&quot;55+&quot;</span>), <span class="dv">200</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  <span class="at">region         =</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&quot;North&quot;</span>, <span class="st">&quot;Midlands&quot;</span>, <span class="st">&quot;South&quot;</span>), <span class="dv">200</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>  <span class="at">survey_weight  =</span> <span class="fu">runif</span>(<span class="dv">200</span>, <span class="fl">0.5</span>, <span class="dv">2</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>)</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>vars   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;outcome1&quot;</span>, <span class="st">&quot;outcome2&quot;</span>, <span class="st">&quot;outcome3&quot;</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>breaks <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;sex&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;region&quot;</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>tmp2 <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">&quot;.xlsx&quot;</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="fu">tabbit_excel</span>(</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>  <span class="at">data        =</span> survey_df,</span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>  <span class="at">vars        =</span> vars,</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>  <span class="at">breakdown   =</span> breaks,</span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>  <span class="at">wtvar       =</span> <span class="st">&quot;survey_weight&quot;</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a>  <span class="at">file        =</span> tmp2,</span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>  <span class="at">by_breakdown =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>  <span class="at">decimals    =</span> <span class="dv">1</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a>)</span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a>tmp2</span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#&gt; [1] &quot;C:\\Users\\siobh\\AppData\\Local\\Temp\\RtmpMLEY0o\\file648489235be.xlsx&quot;</span></span></code></pre></div>
+</div>
+</div>
+<div id="understanding-the-options" class="section level1">
+<h1>Understanding the options</h1>
+<div id="required" class="section level2">
+<h2>Required</h2>
+<ul>
+<li><strong>data</strong>: a data frame<br />
+</li>
+<li><strong>vars</strong>: outcome variables (character vector)<br />
+</li>
+<li><strong>breakdown</strong>: explanatory variables</li>
+</ul>
+</div>
+<div id="main-options" class="section level2">
+<h2>Main options</h2>
+<ul>
+<li><strong>wtvar</strong>: weight variable<br />
+</li>
+<li><strong>by_breakdown</strong>: one sheet per breakdown variable
+(default TRUE)<br />
+</li>
+<li><strong>decimals</strong>: decimal places for percentages
+(0-6)<br />
+</li>
+<li><strong>row_pct</strong>: compute row percentages rather than column
+percentages.</li>
+</ul>
+</div>
+<div id="missingness" class="section level2">
+<h2>Missingness</h2>
+<ul>
+<li><strong>missingasrow</strong>: include missing outcomes as a
+row<br />
+</li>
+<li><strong>nomissing</strong>: suppress all missing-value
+summaries.</li>
+</ul>
+</div>
+<div id="display" class="section level2">
+<h2>Display</h2>
+<ul>
+<li><strong>nooverall</strong>: drop the “Overall %” column<br />
+</li>
+<li><strong>nototal</strong>: drop the “Total %” row.</li>
+</ul>
+</div>
+</div>
+<div id="treatment-of-missing-values" class="section level1">
+<h1>Treatment of missing values</h1>
+<p><code>tabbitR</code> always makes missingness explicit.</p>
+<div id="default" class="section level3">
+<h3>Default</h3>
+<ul>
+<li>missing values excluded from valid rows in weighted table, but shown
+in a separate “Missing %” row<br />
+</li>
+<li>denominator for missing % = valid + missing within each column.</li>
+</ul>
+</div>
+<div id="missingasrow-true" class="section level3">
+<h3><code>missingasrow = TRUE</code></h3>
+<p>Missing values appear as <code>&quot;Response missing&quot;</code> inside the
+main table.</p>
+</div>
+<div id="nomissing-true" class="section level3">
+<h3><code>nomissing = TRUE</code></h3>
+<p>No missing information is displayed in either table.</p>
+</div>
+</div>
+<div id="how-weighted-bases-are-computed" class="section level1">
+<h1>How weighted bases are computed</h1>
+<p>For each breakdown column:</p>
+<pre><code>weighted base W = sum(weights for non-missing outcomes)</code></pre>
+<p>Weighted bases are rounded to whole numbers for readability.</p>
+</div>
+<div id="recommended-workflow" class="section level1">
+<h1>Recommended workflow</h1>
+<ol style="list-style-type: decimal">
+<li>Convert labelled variables using <code>haven::as_factor()</code>
+when needed.<br />
+</li>
+<li>Select outcome variables.<br />
+</li>
+<li>Choose breakdown variables.<br />
+</li>
+<li>Run <code>tabbit_excel()</code>.<br />
+</li>
+<li>Inspect the Excel workbook.<br />
+</li>
+<li>Store code + output for reproducibility.</li>
+</ol>
+</div>
+<div id="citation" class="section level1">
+<h1>Citation</h1>
+<p>If you use <strong>tabbitR</strong> in published work, please
+cite:</p>
+<blockquote>
+<p>McAndrew, S. (2025). <em>tabbitR: Automated weighted
+cross-tabulations for survey analysis.</em> R package.<br />
+<a href="https://github.com/smmcandrew/tabbitR" class="uri">https://github.com/smmcandrew/tabbitR</a></p>
+</blockquote>
+<p>A BibTeX entry is available via:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;tabbitR&quot;</span>)</span></code></pre></div>
+</div>
+<div id="session-info" class="section level1">
+<h1>Session info</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; R version 4.5.0 (2025-04-11 ucrt)</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; Platform: x86_64-w64-mingw32/x64</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; Running under: Windows 11 x64 (build 26200)</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; Matrix products: default</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt;   LAPACK version 3.12.1</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; locale:</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; [1] LC_COLLATE=English_United Kingdom.utf8 </span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; [2] LC_CTYPE=English_United Kingdom.utf8   </span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; [3] LC_MONETARY=English_United Kingdom.utf8</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; [4] LC_NUMERIC=C                           </span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt; [5] LC_TIME=English_United Kingdom.utf8    </span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; time zone: Europe/London</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt; tzcode source: internal</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt; attached base packages:</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co">#&gt; other attached packages:</span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt; [1] tabbitR_0.0.0.9000</span></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="co">#&gt;  [1] digest_0.6.37     R6_2.6.1          fastmap_1.2.0     xfun_0.54        </span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co">#&gt;  [5] cachem_1.1.0      knitr_1.50        htmltools_0.5.9   rmarkdown_2.30   </span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co">#&gt;  [9] lifecycle_1.0.4   cli_3.6.5         zip_2.3.3         openxlsx_4.2.8.1 </span></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co">#&gt; [13] sass_0.4.10       jquerylib_0.1.4   compiler_4.5.0    rstudioapi_0.17.1</span></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co">#&gt; [17] tools_4.5.0       evaluate_1.0.5    bslib_0.9.0       Rcpp_1.1.0       </span></span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="co">#&gt; [21] yaml_2.3.11       rlang_1.1.6       jsonlite_2.0.0    stringi_1.8.7</span></span></code></pre></div>
+<!-- End of vignette -->
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
