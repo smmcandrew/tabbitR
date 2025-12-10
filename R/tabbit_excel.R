@@ -37,7 +37,7 @@
 #' @param wtvar Name of the weight variable (string). Must be present in `data`.
 #' @param row_pct Logical. If `FALSE` (default), tables show column
 #'   percentages. If `TRUE`, tables show row percentages.
-#' @param decimals Integer. Number of decimal places for percentages (0–6;
+#' @param decimals Integer. Number of decimal places for percentages (0-6;
 #'   default 1).
 #' @param nooverall Logical. If `TRUE`, suppress the "Overall" column (or
 #'   "Overall column percentage (valid responses)" table).
@@ -644,10 +644,10 @@ tabbit_excel <- function(
     }
   }
 
-  # Process Easter Egg Option
-  dots <- list(...)
-  if (isTRUE(dots$mayo)) {
-    message("💚❤️ Maigh Eo abú")
+# Ubh chasca (stored in inst/ubh_chasca.txt to avoid non-ASCII in R code)
+  msgfile <- system.file("ubh_chasca.txt", package = "tabbitR")
+  if (file.exists(msgfile)) {
+    message(readLines(msgfile, warn = FALSE))
   }
 
   # Save Workbook
