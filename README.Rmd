@@ -45,7 +45,11 @@ writes:
 User options control:
 
 * number of decimal places
+<<<<<<< HEAD
 * row vs.column percentages
+=======
+* row vs. column percentages
+>>>>>>> 5ddf77a40fbab2e52951321908ef660b3549cf8b
 * whether to show overall % columns or total rows
 * how missing responses should be reported
 * whether to create one sheet per breakdown variable.
