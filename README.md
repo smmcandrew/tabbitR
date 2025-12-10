@@ -29,7 +29,7 @@ and evaluation work, and exploratory data analysis. Doing it manually is
 slow, repetitive, and error-prone.
 
 **tabbitR** solves this by generating a full and consistent set of
-tables in a single command. For each outcome × breakdown pair, it
+tables in a single command. For each outcome by breakdown pair, it
 writes:
 
 - a weighted percentage table
@@ -84,12 +84,9 @@ tabbit_excel(
 )
 ```
 
-This will create an Excel workbook with:
-
-- a weighted percentage table, and
-- an unweighted N table
-
-… each automatically formatted and labelled.
+This will create an Excel workbook with a weighted percentage table and
+unweighted N table for each frequency or breakdown, automatically
+formatted and labelled.
 
 ## Development notes
 
