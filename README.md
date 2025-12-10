@@ -3,7 +3,7 @@
 
 <img src="man/figures/logo.png" align="right" height="60"/>
 
-Weighted crosstabulation tables exported to Excel.
+**Weighted crosstabulation tables exported to Excel**.
 
 <!-- badges: start -->
 
