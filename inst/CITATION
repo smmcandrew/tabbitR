@@ -1,0 +1,15 @@
+citHeader("To cite tabbitR in publications, please use:")
+
+citEntry(
+  entry    = "Manual",
+  title    = "tabbitR: Automated weighted cross-tabulations for survey analysis",
+  author   = person("Siobhan", "McAndrew"),
+  year     = "2025",
+  note     = "R package version 0.1.0",
+  url      = "https://github.com/smmcandrew/tabbitR",
+  textVersion = paste(
+    "McAndrew, S. (2025). tabbitR: Automated weighted cross-tabulations for survey analysis.",
+    "R package version 0.1.0.",
+    "https://github.com/smmcandrew/tabbitR"
+  )
+)
