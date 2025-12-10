@@ -1,7 +1,7 @@
 
 # tabbitR
 
-<img src="man/figures/logo.png" align="right" height="60" />
+<img src="man/figures/logo.png" align="right" height="60"/>
 
 Weighted crosstabulation tables exported to Excel.
 
