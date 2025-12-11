@@ -203,7 +203,7 @@ tmp2
 
 ### Default  
 * missing values excluded from valid rows in weighted table, but shown in a separate "Missing %" row  
-* denominator for missing % = valid + missing within each column.  
+* denominator for missing % = valid + missing within each column.
 
 ### `missingasrow = TRUE`  
 Missing values appear as `"Response missing"` inside the main table.
