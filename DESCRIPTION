@@ -3,11 +3,11 @@ Title: Weighted crosstabulations written to Excel
 Version: 0.0.0.9000
 Authors@R: 
     person("Siobhan", "McAndrew", email="siobhan.mcandrew@gmail.com", role = c("aut", "cre"))
-Description: tabbit produces sets of weighted crosstabulation tables of one or more outcome variables by one or 
-    more breakdown variables, and writes them to an Excel workbook, together with unweighted N. The command is 
-    designed for large sets of outcome variables and multiple breakdown variables, with options to control number of decimal places, 
-    and whether to display missing cases, the overall % column/total % row, and choice of column/row percentages.
-    R version of Stata's -tabbit-
+Description: Description: Automates the production of weighted crosstabulation tables and
+    exports them directly to Excel. For each outcome and breakdown variable,
+    the package creates a weighted percentage table and a corresponding
+    unweighted count table, with transparent handling of missing values and
+    light formatting suitable for survey reporting.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Imports:
@@ -17,3 +17,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 URL: https://github.com/smmcandrew/tabbitR
 BugReports: https://github.com/smmcandrew/tabbitR/issues
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
