@@ -10,6 +10,7 @@ Description: Produces weighted crosstabulation tables for one or more outcome
     transparent handling of missing values and light, readable formatting. 
     Designed to support social survey analysis workflows that require large sets of 
     consistent, publication-ready tables.
+Language: en-GB
 License: MIT + file LICENSE
 Encoding: UTF-8
 Imports:
