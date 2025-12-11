@@ -1,18 +1,21 @@
 Package: tabbitR
-Title: Weighted crosstabulations written to Excel
-Version: 0.0.0.9000
+Title: Weighted Crosstabulations Exported to Excel
+Version: 0.1.0
 Authors@R: 
     person("Siobhan", "McAndrew", email="siobhan.mcandrew@gmail.com", role = c("aut", "cre"))
-Description: Description: Automates the production of weighted crosstabulation tables and
-    exports them directly to Excel. For each outcome and breakdown variable,
-    the package creates a weighted percentage table and a corresponding
-    unweighted count table, with transparent handling of missing values and
-    light formatting suitable for survey reporting.
+Description: Produces weighted crosstabulation tables for one or more outcome 
+    variables across one or more breakdown variables, and exports them directly 
+    to Excel. For each outcome-by-breakdown combination, the package creates a 
+    weighted percentage table and a corresponding unweighted count table, with 
+    transparent handling of missing values and light, readable formatting. 
+    Designed to support social survey analysis workflows that require large sets of 
+    consistent, publication-ready tables.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Imports:
     haven,
-    openxlsx
+    openxlsx,
+    stats
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 URL: https://github.com/smmcandrew/tabbitR
