@@ -6,3 +6,4 @@
 ^doc$
 ^Meta$
 ^DESCRIPTION\.dcf$
+^cran-comments\.md$
