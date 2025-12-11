@@ -9,7 +9,7 @@
 
 [![R-CMD-check](https://github.com/smmcandrew/tabbitR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/smmcandrew/tabbitR/actions/workflows/R-CMD-check.yaml)
 [![License:
-MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.md)
+MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
 ## Overview
