@@ -56,6 +56,7 @@
 #'   hidden message.
 #'
 #' @return Invisibly, the file path of the created workbook (a character string).
+#' @importFrom stats xtabs
 #'
 #' @examples
 #' \dontrun{
