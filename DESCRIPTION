@@ -1,5 +1,5 @@
 Package: tabbitR
-Title: Weighted Cross-tabulations Exported to Excel
+Title: Weighted Cross-Tabulations Exported to Excel
 Version: 0.1.0
 Authors@R: 
     person("Siobhan", "McAndrew", email="siobhan.mcandrew@gmail.com", role = c("aut", "cre"))
