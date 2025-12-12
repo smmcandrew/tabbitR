@@ -1,3 +1,4 @@
-Version: 0.1.0
-Date: 2025-12-11 17:56:05 UTC
-SHA: 4053a9beb0d440e418f708d0ae6de2dfa86ae052
+Version: 0.1.1
+This is a resubmission.
+* Capitalised “Cross-Tabulation” in DESCRIPTION Title as requested by CRAN.
+* Incremented version number.
