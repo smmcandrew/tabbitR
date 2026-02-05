@@ -1,11 +1,11 @@
 Package: tabbitR
-Title: Weighted Cross-Tabulations Exported to Excel
-Version: 0.1.1
+Title: Weighted Cross-Tabulations Exported to 'Excel'
+Version: 0.1.3
 Authors@R: 
     person("Siobhan", "McAndrew", email="siobhan.mcandrew@gmail.com", role = c("aut", "cre"))
 Description: Produces weighted cross-tabulation tables for one or more outcome 
     variables across one or more breakdown variables, and exports them directly 
-    to Excel. For each outcome-by-breakdown combination, the package creates a 
+    to 'Excel'. For each outcome-by-breakdown combination, the package creates a 
     weighted percentage table and a corresponding unweighted count table, with 
     transparent handling of missing values and light, readable formatting. 
     Designed to support social survey analysis workflows that require large sets of 

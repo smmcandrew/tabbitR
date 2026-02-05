@@ -19,8 +19,8 @@ knitr::opts_chunk$set(
 
 # Overview
 
-**tabbitR** automates the production of large sets of weighted 
-crosstabulation tables and exports them directly to Excel.  
+tabbitR automates the production of large sets of weighted 
+crosstabulation tables and exports them directly to 'Excel'.  
 It is designed for situations where analysts need many tables at once, such as:
 
 * multiple outcome variables  
@@ -38,7 +38,7 @@ evaluation, and exploratory data analysis. Doing it manually is repetitive, erro
 * a weighted percentage table  
 * a matching unweighted N table  
 * a clearly labelled summary of missing responses  
-* light formatting via **openxlsx**  
+* light formatting via **`openxlsx`**  
 * one or multiple Excel sheets depending on user preference.  
 
 The goal is to reduce manual work, enforce consistency, and accelerate the early
@@ -60,7 +60,7 @@ Manual workflows struggle with:
 * producing both weighted and unweighted summaries for each outcome variable  
 * generating reproducible outputs.  
 
-`tabbitR` automates all of this in one reproducible command.
+tabbitR automates all of this in one reproducible command.
 
 # Key features
 
@@ -82,13 +82,13 @@ Alongside the percentage table, `tabbit_excel()` writes:
 
 ## Missing values: clear and explicit
 
-`tabbitR` does not silently drop missing responses.
+tabbitR does not silently drop missing responses.
 
 Users may choose:
 
 * **default:** missing outcomes excluded from percentage rows, but  
   summarised in a "Missing %" line  
-* **`missingasrow = TRUE`:** missing values appear as `Response missing"`  
+* **`missingasrow = TRUE`:** missing values appear as `"Response missing"`  
   as a full row in both the percentage and N tables  
 * **`nomissing = TRUE`:** no missing summary is shown.  
 
@@ -96,12 +96,12 @@ Users may choose:
 
 * one sheet per breakdown variable (default)  
 * or all tables in a single sheet  
-* variable labels included when available (from e.g. haven-labelled data)  
-* Excel formatting: bold headers, borders, readable layout.  
+* variable labels included when available (from e.g. **`haven`**-labelled data)  
+* 'Excel' formatting: bold headers, borders, readable layout.  
 
 ## Designed for large projects
 
-`tabbitR` is especially useful when producing:
+tabbitR is especially useful when producing:
 
 * formatted frequencies or breakdowns for hundreds of outcome variables  
 * for multiple countries or survey waves  
@@ -133,12 +133,9 @@ tabbit_excel(
 )
 
 tmp
-```
 
-You can open the file in Excel with:
-
-```r
-openxlsx::openXL(tmp)
+# The workbook is written to a temporary location (tmp).
+# Open the file in a spreadsheet application to inspect the output.
 ```
 
 ## Multiple outcomes and multiple breakdowns
@@ -199,7 +196,7 @@ tmp2
 
 # Treatment of missing values
 
-`tabbitR` always makes missingness explicit.
+tabbitR always makes missingness explicit.
 
 ### Default  
 * missing values excluded from valid rows in weighted table, but shown in a separate "Missing %" row  
@@ -232,7 +229,7 @@ Weighted bases are rounded to whole numbers for readability.
 
 # Citation
 
-If you use **tabbitR** in published work, please cite:
+If you use tabbitR in published work, please cite:
 
 > McAndrew, S. (2025). *tabbitR: Automated weighted cross-tabulations for survey analysis.* R package.  
 > https://github.com/smmcandrew/tabbitR

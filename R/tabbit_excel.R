@@ -52,20 +52,28 @@
 #'   breakdown variable. If `FALSE`, stack all results into a single sheet
 #'   called `sheet_base`.
 #' @param sheet_base Sheet name to use when `by_breakdown = FALSE`.
-#' @param ... For future extension; may include \code{mayo = TRUE} for a small
-#'   hidden message.
+#' @param ... For future extension.
 #'
 #' @return Invisibly, the file path of the created workbook (a character string).
 #' @importFrom stats xtabs
 #'
 #' @examples
-#' \dontrun{
+#' out_file <- tempfile(fileext = ".xlsx")
+#'
+#' df <- data.frame(
+#'   courteous = factor(c("Definitely true","Mostly true", NA, "Mostly false")),
+#'   listener  = factor(c("Often","Sometimes","Never", NA)),
+#'   sex       = factor(c("Male","Female","Female","Male")),
+#'   agegrp1   = factor(c("18-34","35-54","18-34","55+")),
+#'   weight = c(1, 1.5, 0.8, 1.2)
+#' )
+#'
 #' tabbit_excel(
-#'   data         = survey_df,
+#'   data         = df,
 #'   vars         = c("courteous", "listener"),
 #'   breakdown    = c("sex", "agegrp1"),
-#'   file         = "results.xlsx",
-#'   wtvar        = "w_caltrim_c",
+#'   file         = out_file,
+#'   wtvar        = "weight",
 #'   row_pct      = FALSE,
 #'   decimals     = 1L,
 #'   nooverall    = FALSE,
@@ -73,7 +81,6 @@
 #'   missingasrow = FALSE,
 #'   nomissing    = FALSE
 #' )
-#' }
 #'
 #' @export
 tabbit_excel <- function(
@@ -645,11 +652,6 @@ tabbit_excel <- function(
     }
   }
 
-# Ubh chasca (stored in inst/ubh_chasca.txt to avoid non-ASCII in R code)
-  msgfile <- system.file("ubh_chasca.txt", package = "tabbitR")
-  if (file.exists(msgfile)) {
-    message(readLines(msgfile, warn = FALSE))
-  }
 
   # Save Workbook
   openxlsx::saveWorkbook(wb, file, overwrite = TRUE)
